@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cover Letter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: rgb(178, 178, 239);
+        }
+        .container {
+            max-width: 750px;
+           align-content: center;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            text-align: left;
+            overflow: hidden;
+        }
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        p {
+            line-height: 1.8;
+            color: #444;
+            font-size: 16px;
+            text-align: justify;
+        }
+        .signature {
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        .contact-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        .highlight {
+            color: #6a11cb;
+            font-weight: 700;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 Cover Letter</h1>
+        </div>
+       
+        <p>
+            {{ lines }}
+        </p>
+        <p>
+            I am <span class="highlight">excited</span> about this opportunity and would love to contribute my skills to your team! Feel free to connect with me at <span class="highlight">{{ email }}</span> or <span class="highlight">{{ phone }}</span>.
+        </p>
+        <div class="signature">
+            <p>Best regards,</p>
+            <p>{{ full_name }}</p>
+        </div>
+        <div class="contact-info">
+            <p>📧 Email: {{ email }}</p>
+            <p>📞 Phone: {{ phone }}</p>
+        </div>
+        <div class="footer">
+            <p>✨ Let’s create something amazing together! ✨</p>
+        </div>
+    </div>
+</body>
+</html>

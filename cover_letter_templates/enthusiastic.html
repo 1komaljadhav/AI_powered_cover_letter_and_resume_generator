@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cover Letter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 750px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #d35400;
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        p {
+            line-height: 1.8;
+            color: #444;
+            font-size: 16px;
+            text-align: justify;
+        }
+        .signature {
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        .contact-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        .highlight {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Cover Letter</h1>
+         <p>
+            {{ lines }}
+        </p>
+        <p>
+            I am <span class="highlight">thrilled</span> about this opportunity and can't wait to bring my passion and skills to your team! Feel free to reach out to me at <span class="highlight">{{ email }}</span> or <span class="highlight">{{ phone }}</span>. Let's make something amazing together! 💡
+        </p>
+        <div class="signature">
+            <p>Best regards,</p>
+            <p>{{ full_name }}</p>
+        </div>
+        <div class="contact-info">
+            <p>📧 Email: {{ email }}</p>
+            <p>📞 Phone: {{ phone }}</p>
+        </div>
+    </div>
+</body>
+</html>

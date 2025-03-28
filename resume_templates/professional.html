@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Resume Container */
+.resume-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Header */
+header {
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.contact {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Section Titles */
+h2 {
+    font-size: 22px;
+    color: #2c3e50;
+    border-bottom: 2px solid #e1e1e1;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* Sections */
+section {
+    margin-bottom: 20px;
+}
+
+/* Lists */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: #f8f9fa;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-left: 5px solid #3498db;
+    border-radius: 5px;
+}
+
+/* Skill Badges */
+.skill-category {
+    margin-bottom: 15px;
+}
+
+.skill-box {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    margin: 3px;
+    font-size: 14px;
+}
+
+/* Links */
+a {
+    color: #e67e22;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- HEADER -->
+        <header>
+            <h1>{{ name }}</h1>
+            <p class="title">{{ job_title }}</p>
+            <p class="contact">
+                <i class="fas fa-envelope"></i> {{ email }} | <i class="fas fa-phone"></i> {{ phone }} | <i class="fas fa-map-marker-alt"></i> {{ address }}
+                {% if linkedin %} | <i class="fab fa-linkedin"></i> <a href="{{ linkedin }}" target="_blank">LinkedIn</a> {% endif %}
+                {% if github %} | <i class="fab fa-github"></i> <a href="{{ github }}" target="_blank">GitHub</a> {% endif %}
+            </p>
+        </header>
+
+        <!-- PROFILE SUMMARY -->
+        {% if summary %}
+        <section class="profile-summary">
+            <h2>Profile Summary</h2>
+            <p>{{ summary }}</p>
+        </section>
+        {% endif %}
+
+        <!-- EDUCATION -->
+        {% if profile_summary %}
+        <div class="section">
+            <h2>Profile Summary</h2>
+            <p>{{ profile_summary }}</p>
+        </div>
+        {% endif %}
+        {% if education %}
+        <div class="section">
+            <h2>Education</h2>
+            <ul>
+                {% for edu in education %}
+                <li>{{ edu }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if projects %}
+        <div class="section">
+            <h2>Projects</h2>
+            <ul>
+                {% for project in projects %}
+                <li>{{ project }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if skills %}
+            <div class="section">
+                <h2>Skills</h2>
+                <div class="skills-container">
+                    {% for skill in skills %}
+                    <span>{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        {% if certifications %}
+        <div class="section">
+            <h2>Certifications</h2>
+            <p style="font-weight: normal;">{{ certifications }}</p> <!-- Normal text for description -->
+        </div>
+        {% endif %}
+
+        {% if languages %}
+        <div class="section">
+            <h2>Languages Known</h2>
+            <ul>
+                {% for language in languages %}
+                <li>{{ language }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

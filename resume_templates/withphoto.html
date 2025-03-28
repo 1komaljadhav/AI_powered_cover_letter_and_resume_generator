@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .resume-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-photo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-photo img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #2c3e50;
+        }
+        h1, h2 {
+            margin: 5px 0;
+            color: #333;
+        }
+        h1 {
+            font-size: 26px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 20px;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+        p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .contact-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .contact-info p {
+            color: #555;
+            font-size: 14px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .skills-container span {
+            display: inline-block;
+            background: #2c3e50;
+            color: white;
+            padding: 6px 12px;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background: #ecf0f1;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 5px solid #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="resume-container">
+        <!-- Profile Photo -->
+        {% if photo_path %}
+        <div class="profile-photo">
+            <img src="{{ photo_path }}" alt="Profile Photo">
+        </div>
+        {% endif %}
+
+        <!-- Name -->
+        <h1>{{ name }}</h1>
+
+        <!-- Contact Information -->
+        <div class="contact-info">
+            <p><strong>Email:</strong> {{ email }}</p>
+            <p><strong>Phone:</strong> {{ phone }}</p>
+            <p><strong>Address:</strong> {{ address }}</p>
+            {% if linkedin %}<p><strong>LinkedIn:</strong> <a href="{{ linkedin }}" style="color: #1abc9c;" target="_blank">{{ linkedin }}</a></p>{% endif %}
+            {% if github %}<p><strong>GitHub:</strong> <a href="{{ github }}" style="color: #1abc9c;" target="_blank">{{ github }}</a></p>{% endif %}
+        </div>
+
+        <!-- Profile Summary -->
+        {% if profile_summary %}
+        <div class="section">
+            <h2>Profile Summary</h2>
+            <p>{{ profile_summary }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Education -->
+        {% if education %}
+        <div class="section">
+            <h2>Education</h2>
+            <ul>
+                {% for edu in education %}
+                <li>{{ edu }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+       <!-- Projects Section -->
+       {% if projects %}
+       <div class="section">
+           <h2>Projects</h2>
+           <ul>
+               {% for project in projects %}
+               <li>{{ project }}</li>
+               {% endfor %}
+           </ul>
+       </div>
+       {% endif %}
+
+        <!-- Work Experience -->
+        {% if experience %}
+        <div class="section">
+            <h2>Work Experience</h2>
+            <ul>
+                {% for exp in experience %}
+                <li>{{ exp }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Skills -->
+        {% if skills %}
+        <div class="section">
+            <h2>Skills</h2>
+            <div class="skills-container">
+                {% for skill in skills %}
+                <span>{{ skill }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Certifications -->
+        {% if certifications %}
+        <div class="section">
+            <h2>Certifications</h2>
+            <ul>
+                {% for cert in certifications %}
+                <li>{{ cert }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Awards -->
+        {% if awards %}
+        <div class="section">
+            <h2>Awards & Achievements</h2>
+            <ul>
+                {% for award in awards %}
+                <li>{{ award }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Languages -->
+        {% if languages %}
+        <div class="section">
+            <h2>Languages Known</h2>
+            <ul>
+                {% for language in languages %}
+                <li>{{ language }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Resume</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 20px;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            color: #222;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 30px;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            font-size: 20px;
+            margin-bottom: 3px;
+            background: #15508a;
+            color: rgb(255, 255, 255);
+            padding: 4px;
+            border-radius: 8px;
+            text-align: center;
+            text-transform: uppercase; /* Make headings uppercase */
+        }
+        .section {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f0f0f0;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+            font-weight: normal; /* Make list items normal text */
+        }
+        ul li::before {
+            content: "✔";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+        }
+        .contact-info {
+            text-align: left;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        .contact-info a {
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+        .contact-info a:hover {
+            color: #8e44ad;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+ 
+.skill-category {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #141313;
+    
+    padding: 8px;
+    border-radius: 5px;
+    display: block;
+}
+
+.skill-box {
+    display: inline-block;
+    background-color: rgb(168, 149, 252);
+    color: #0e0e0e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 3px;
+    font-size: 14px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <h2>Personal Information</h2>
+        
+        <div class="contact-info">
+            <p><strong>Name:</strong> {{ name }}</p>
+            <p><strong>Email:</strong> <a href="mailto:{{ email }}">{{ email }}</a></p>
+            <p><strong>Phone:</strong> {{ phone }}</p>
+            <p><strong>Address:</strong> {{ address }}</p>
+            {% if linkedin %}<p><strong>LinkedIn:</strong> <a href="{{ linkedin }}" target="_blank">{{ linkedin }}</a></p>{% endif %}
+            {% if github %}<p><strong>GitHub:</strong> <a href="{{ github }}" target="_blank">{{ github }}</a></p>{% endif %}
+        </div>
+        </div>
+
+        
+        {% if profile_summary %}
+        <div class="section">
+            <h2>Profile Summary</h2>
+            <p>{{ profile_summary }}</p>
+        </div>
+        {% endif %}
+        {% if education %}
+        <div class="section">
+            <h2>Education</h2>
+            <ul>
+                {% for edu in education %}
+                <li>{{ edu }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if projects %}
+        <div class="section">
+            <h2>Projects</h2>
+            <ul>
+                {% for project in projects %}
+                <li>{{ project }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if skills %}
+            <div class="section">
+                <h2>Skills</h2>
+                <div class="skills-container">
+                    {% for skill in skills %}
+                    <span>{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            
+
+        {% if certifications %}
+        <div class="section">
+            <h2>Certifications</h2>
+            <p style="font-weight: normal;">{{ certifications }}</p> <!-- Normal text for description -->
+        </div>
+        {% endif %}
+
+        {% if languages %}
+        <div class="section">
+            <h2>Languages Known</h2>
+            <ul>
+                {% for language in languages %}
+                <li>{{ language }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
