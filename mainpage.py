@@ -1,10 +1,11 @@
 import streamlit as st
-import homepage as homepage
-import cover_letter as cover_letter
-import resume as resume
 
-# Set page configuration
 st.set_page_config(page_title="AI Cover Letter & Resume Generator", page_icon="📄", layout="wide")
+
+# Import other modules
+import homepage
+import cover_letter
+import resume
 
 # Add custom CSS styles
 st.markdown(
@@ -61,13 +62,33 @@ st.markdown(
         border-radius: 5px;
         padding: 10px;
     }
+
+    /* Input Box Styling */
+    input {
+        background-color: #FFFFFF; /* White */
+        border: 1px solid #00ABE4; /* Bright Blue */
+        border-radius: 5px;
+        padding: 10px;
+        color: #111827; /* Dark Charcoal for text */
+        font-size: 1rem;
+    }
+
+    /* Text Area Styling */
+    textarea {
+        background-color: #FFFFFF; /* White */
+        border: 1px solid #00ABE4; /* Bright Blue */
+        border-radius: 5px;
+        padding: 10px;
+        color: #111827; /* Dark Charcoal for text */
+        font-size: 1rem;
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
 # Sidebar Navigation
-st.sidebar.title("Navigation")
+st.sidebar.title("QuickCV")
 page = st.sidebar.radio("Go to", ["Home", "Cover Letter Generator", "Resume Generator"])
 
 # Page Routing

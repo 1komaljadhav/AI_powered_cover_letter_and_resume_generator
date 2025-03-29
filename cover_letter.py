@@ -68,10 +68,12 @@ def show():
         textarea {
             background-color: #FFFFFF; /* White */
             border: 1px solid #00ABE4; /* Bright Blue */
-            border-radius: 5px;
-            padding: 10px;
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Padding inside the textarea */
             color: #111827; /* Dark Charcoal for text */
-            font-size: 1rem;
+            font-size: 1rem; /* Font size */
+            width: 100%; /* Full width */
+            box-sizing: border-box; /* Include padding and border in width */
         }
 
         /* Button Styling */

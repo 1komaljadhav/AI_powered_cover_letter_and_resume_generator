@@ -1,8 +1,9 @@
 import streamlit as st
+# st.set_page_config(page_title="AI Cover Letter & Resume Generator", page_icon="📄", layout="wide")
+
 from PIL import Image
 
 # Set page configuration - must be the first Streamlit command
-st.set_page_config(page_title="AI Cover Letter & Resume Generator", page_icon="📄", layout="wide")
 
 def show():
     # Add custom CSS styles
@@ -67,6 +68,18 @@ def show():
         /* Image Styling */
         img {
             border-radius: 10px;
+        }
+
+        /* Text Area Styling */
+        textarea {
+            background-color: #FFFFFF; /* White */
+            border: 1px solid #00ABE4; /* Bright Blue */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Padding inside the textarea */
+            color: #111827; /* Dark Charcoal for text */
+            font-size: 1rem; /* Font size */
+            width: 100%; /* Full width */
+            box-sizing: border-box; /* Include padding and border in width */
         }
 
         /* Footer Styling */
@@ -144,16 +157,7 @@ def show():
     """)
 
     # Explore Features
-    st.markdown("## 📂 Explore Our Features")
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("📄 Generate Cover Letter"):
-            st.write("🔍 Redirecting to Cover Letter Generator... (Integrate later)")
-    with col2:
-        if st.button("📜 Generate Resume"):
-            st.write("📝 Redirecting to Resume Generator... (Integrate later)")
-
-    st.info("📌 *Click the buttons above to get started!*")
+   
 
     # Sample Templates Section
     st.markdown("## 📝 Sample Resume & Cover Letter Templates")
