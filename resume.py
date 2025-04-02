@@ -2,6 +2,11 @@ import streamlit as st
 from jinja2 import Environment, FileSystemLoader
 import pdfkit
 import os
+import cohere
+import re  # Import regex for parsing
+
+# Initialize Cohere client
+co = cohere.Client("uyRCRe0AwstpNh7hzjZR9Qz0MKqq94EbtBzFhlUj")
 
 def show():
     # Load Jinja2 Template Engine
@@ -12,12 +17,52 @@ def show():
 
     def generate_resume(template_name, resume_data):
         """Generate resume from selected template"""
-        template = env.get_template(template_name)
-        return template.render(resume_data)
+        try:
+            template = env.get_template(template_name)
+            return template.render(resume_data)
+        except Exception as e:
+            st.error(f"An error occurred while rendering the template: {e}")
+            return ""
 
     def save_pdf(html_content, pdf_filename):
         """Convert HTML resume to PDF"""
         pdfkit.from_string(html_content, pdf_filename, configuration=config)
+
+    import re
+
+    def extract_resume_details(generated_content):
+        """Extract structured resume data from the generated content."""
+        
+        def extract_single(pattern, content):
+            """Extracts single-line fields like Name, Email, Phone, etc."""
+            match = re.search(pattern, content)
+            return match.group(1).strip() if match else "N/A"
+
+        def extract_multiple(pattern, content):
+            """Extracts multi-line sections like Education, Projects, Skills, etc."""
+            match = re.search(pattern, content, re.DOTALL)
+            return re.findall(r"-\s*(.*)", match.group(1)) if match else []
+        
+        # Extracting single-line fields
+        resume_details = {
+            "name": extract_single(r"Name:\s*(.*?)\s*\n", generated_content),
+            "email": extract_single(r"Email:\s*(.*?)\s*\n", generated_content),
+            "phone": extract_single(r"Phone:\s*(.*?)\s*\n", generated_content),
+            "address": extract_single(r"Address:\s*(.*?)\s*\n", generated_content),
+            "profile_summary": extract_single(r"Profile Summary:\s*(.*?)\s*---", generated_content),
+        }
+
+        # Extracting multi-line sections
+        resume_details.update({
+            "education": extract_multiple(r"Education:\s*(.*?)\s*---", generated_content),
+            "projects": extract_multiple(r"Projects:\s*(.*?)\s*---", generated_content),
+            "skills": extract_multiple(r"Skills:\s*(.*?)\s*---", generated_content),
+            "certifications": extract_multiple(r"Certifications:\s*(.*?)\s*---", generated_content),
+            "awards": extract_multiple(r"Awards & Achievements:\s*(.*?)\s*---", generated_content),
+            "languages": extract_multiple(r"Languages Known:\s*(.*?)\s*---", generated_content),
+        })
+        print(resume_details)
+        return resume_details
 
     # Add custom CSS styles
     st.markdown(
@@ -30,7 +75,7 @@ def show():
         }
         .stApp {
             background-color: #E9F1FA; /* Background: Light Blue */
-            color: #111827; /* Text: Dark Charcoal */
+            color: #111827; /* Dark Charcoal */
         }
 
         /* Title Styling */
@@ -38,7 +83,8 @@ def show():
             color: #00ABE4; /* Bright Blue */
         }
 
- .stTextInput > div > div > input {
+        /* Input Box Styling */
+        .stTextInput > div > div > input {
             background-color: #FFFFFF; /* White */
             border: 1px solid #00ABE4; /* Bright Blue */
             border-radius: 5px;
@@ -71,8 +117,6 @@ def show():
             background-color: #007BB5; /* Darker Blue for hover */
             color: white;
         }
-
-       
 
         /* Alert Styling */
         .stAlert {
@@ -135,13 +179,13 @@ def show():
     selected_template = st.selectbox("Choose Resume Template", list(templates.keys()))
     selected_template_file = templates[selected_template]
 
-    # Step 2: Generate Resume Content
+    # Step 2: Generate Resume Content using Cohere API
     if st.button("Generate Content"):
         if not full_name or not email or not job_description:
             st.error("Please fill in required fields: Full Name, Email, and Job Description.")
         else:
             prompt = f"""
-            Analyze the provided details and generate a professional, ATS-friendly resume. Follow these rules strictly:
+            Analyze the provided details and generate a professional, ATS-friendly resume with detailed description. Follow these rules strictly:
 
                 1. **Skill Matching Check**:  
                 - Compare the provided skills with the job description.  
@@ -157,10 +201,12 @@ def show():
                 3. **Formatting & Tone**:  
                 - Ensure the resume is professional, concise, and ATS-friendly.  
                 - Use bullet points where necessary and avoid excessive formatting.  
-                - Write in a clear, structured, and industry-standard format.  
-                4. **Do NOT include any extra notes or comments. ONLY generate the resume as per the given structure.**
-
-                ---
+                - Write in a clear, structured, and industry-standard format. 
+                - write somemore detailed 
+                - if any section is empty then dont give that section in the resume.
+                - if any section is not given then dont give that section in the resume.
+                
+                4. **Do NOT include any extra notes or comments. ONLY generate the resume as per the given structure. separate the section using --- this pls note it. and after section name : there is colon** 
 
                 ### User Details:  
                 - **Name**: {full_name}  
@@ -181,29 +227,51 @@ def show():
                 - **Awards & Achievements**: {awards}  
                 - **Languages Known**: {languages}
             """
-            # Generate AI Resume Content
-            generated_content = "Generated resume content based on the provided details."  # Placeholder for AI response
-            st.session_state.generated_content = generated_content
+            try:
+                # Use Cohere API to generate resume content
+                response = co.chat(
+                    message=prompt,
+                    chat_history=[],
+                    max_tokens=700,
+                    temperature=0.7
+                )
+
+                # Deb
+                # Extract the generated content
+                if hasattr(response, "text") and response.text:
+                    # Clean the generated content by removing `*` and `***`
+                    generated_content = response.text.replace("*", "").strip()
+                    st.session_state.generated_content = generated_content
+                    st.success("Resume content generated successfully!")
+                else:
+                    st.error("Failed to generate resume content. Please try again.")
+
+            except Exception as e:
+                st.error(f"An error occurred while generating content: {e}")
 
     # Text area for modifications
     if "generated_content" in st.session_state:
         modified_content = st.text_area("Modify Generated Resume", value=st.session_state.generated_content, height=400)
 
         if st.button("Confirm Changes"):
+            # Extract structured data from the modified content
+            resume_data = extract_resume_details(modified_content)
+
             # Generate final resume from template
-            updated_resume = generate_resume(selected_template_file, {"content": modified_content})
+            updated_resume = generate_resume(selected_template_file, resume_data)
 
-            # Display PDF Preview in Streamlit
-            st.markdown("### Resume Preview")
-            pdf_viewer_html = f"""
-                <iframe src="resume_final.pdf" width="100%" height="600px" style="border: none;"></iframe>
-            """
-            st.components.v1.html(pdf_viewer_html, height=600, scrolling=True)
+            if updated_resume:
+                # Display the rendered HTML in the preview
+                st.markdown("### Resume Preview")
+                st.components.v1.html(updated_resume, height=600, scrolling=True)
 
-            # Convert to PDF
-            pdf_filename = "resume_final.pdf"
-            save_pdf(updated_resume, pdf_filename)
+                # Convert the rendered HTML to a PDF
+                pdf_filename = "resume_final.pdf"
+                save_pdf(updated_resume, pdf_filename)
 
-            # Provide Download Option
-            with open(pdf_filename, "rb") as pdf_file:
-                st.download_button(label="Download Resume", data=pdf_file, file_name="resume_final.pdf", mime="application/pdf")
+                # Provide a download button for the PDF
+                with open(pdf_filename, "rb") as pdf_file:
+                    st.download_button(label="Download Resume", data=pdf_file, file_name="resume_final.pdf", mime="application/pdf")
+            else:
+                st.error("Failed to render the resume. Please check the template.")
+

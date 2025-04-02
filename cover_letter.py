@@ -24,6 +24,7 @@ def render_html_template(template, cover_letter_content, full_name, email, phone
 
 # Function to save HTML as PDF
 def save_html_as_pdf(html_content, output_path):
+    
     config = pdfkit.configuration(wkhtmltopdf=r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")  # Path to wkhtmltopdf
     pdfkit.from_string(html_content, output_path, configuration=config)
 
@@ -227,6 +228,8 @@ def show():
                 mime="application/pdf"
             )
 
+        # Satisfaction Check Section
+        
 # Run Streamlit App
 if __name__ == "__main__":
     show()

@@ -110,7 +110,7 @@ def show():
         "That’s where AI comes in! Our system simplifies the entire process, helping you:"
     )
     st.markdown("✅ Create **ATS-friendly** resumes in a few clicks.  \n"
-                "✅ Generate **tailored cover letters** by analyzing job descriptions.  \n"
+                "✅ Generate **tailored cover letters and resume** by analyzing job descriptions.  \n"
                 "✅ Format your documents professionally with **ready-to-use templates**.  \n"
                 "✅ **Save time** while improving the quality of your job applications.")
 
